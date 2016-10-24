@@ -1,0 +1,1581 @@
+-- MySQL dump 10.11
+--
+-- Host: localhost    Database: nzulm_output_schema
+-- ------------------------------------------------------
+-- Server version	5.0.67-0.dotdeb.1
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `abbreviations`
+--
+
+DROP TABLE IF EXISTS `abbreviations`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `abbreviations` (
+  `id` varchar(19) NOT NULL,
+  `Abbreviation` varchar(32) default NULL,
+  `FullySpecifiedName` varchar(255) default NULL,
+  `PreferredTerm` varchar(255) default NULL,
+  `is_retired` smallint(6) default '0',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `CT`
+--
+
+DROP TABLE IF EXISTS `CT`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `CT` (
+  `id` varchar(19) NOT NULL,
+  `FullySpecifiedName` varchar(255) default NULL,
+  `PreferredTerm` varchar(255) default NULL,
+  `parentCT` varchar(19) default NULL,
+  `is_retired` smallint(6) default '0',
+  PRIMARY KEY  (`id`),
+  KEY `CT_parentCT` (`parentCT`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `CTPP`
+--
+
+DROP TABLE IF EXISTS `CTPP`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `CTPP` (
+  `id` varchar(19) NOT NULL,
+  `PreferredTerm` varchar(1000) default '',
+  `FullySpecifiedname` varchar(1000) default NULL,
+  `TPP` varchar(19) default NULL,
+  `OtherContaineredPackInformation` varchar(255) default NULL,
+  `PackManufactureIndicator` varchar(19) default NULL,
+  `ContainerType` varchar(19) default NULL,
+  `Pharmacode` int(11) default NULL,
+  `is_section29` tinyint(4) default '0',
+  `is_virtual` tinyint(4) default '0',
+  `old_sctid` varchar(19) default '',
+  `is_retired` smallint(6) default '0',
+  `not_in_Medsafe_data` smallint(6) default '0',
+  PRIMARY KEY  (`id`),
+  KEY `CTPP_Pharmacode` (`Pharmacode`),
+  KEY `CTPP_TPP` (`TPP`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `doseform`
+--
+
+DROP TABLE IF EXISTS `doseform`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `doseform` (
+  `id` varchar(19) NOT NULL,
+  `FullySpecifiedName` varchar(255) default NULL,
+  `PreferredTerm` varchar(255) default NULL,
+  `parentF` varchar(19) default NULL,
+  `is_retired` smallint(6) default '0',
+  PRIMARY KEY  (`id`),
+  KEY `F_parentF` (`parentF`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+
+--
+-- Table structure for table `substance`
+--
+
+DROP TABLE IF EXISTS `substance`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `substance` (
+  `id` varchar(19) NOT NULL,
+  `FullySpecifiedName` varchar(255) default NULL,
+  `PreferredTerm` varchar(255) default NULL,
+  `HasLessModifiedIngredient` varchar(19) default NULL,
+  `is_retired` smallint(6) default '0',
+  PRIMARY KEY  (`id`),
+  KEY `substance_PreferredTerm` (`PreferredTerm`),
+  KEY `substance_HasLessModifiedIngredient` (`HasLessModifiedIngredient`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+--
+-- Table structure for table `MHM`
+--
+
+DROP TABLE IF EXISTS `MHM`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `MHM` (
+  `id` varchar(19) NOT NULL,
+  `MPP` varchar(19) default NULL,
+  `MPUU` varchar(19) default NULL,
+  `UnitOfUseQuantityValue` double default NULL,
+  `UnitOfUseQuantityUnits` varchar(19) default NULL,
+  `UnitOfUseSizeValue` double default NULL,
+  `UnitOfUseSizeUnits` varchar(19) default NULL,
+  `PreferredComponentOrder` double default NULL,
+  PRIMARY KEY  (`id`),
+  KEY `MHM_MPP` (`MPP`),
+  KEY `MHM_MPUU` (`MPUU`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `MP`
+--
+
+DROP TABLE IF EXISTS `MP`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `MP` (
+  `id` varchar(19) NOT NULL,
+  `PreferredTerm` varchar(1000) default '',
+  `FullySpecifiedname` varchar(1000) default NULL,
+  `IsBaseSubstance` tinyint(4) default NULL,
+  `is_retired` smallint(6) default '0',
+  PRIMARY KEY  (`id`),
+  KEY `MP_PreferredTerm` (`PreferredTerm`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `MPP`
+--
+
+DROP TABLE IF EXISTS `MPP`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `MPP` (
+  `id` varchar(19) NOT NULL,
+  `PreferredTerm` varchar(1000) default '',
+  `FullySpecifiedname` varchar(1000) default NULL,
+  `TotalUnitOfUseQuantityValue` double default NULL,
+  `TotalUnitOfUseQuantityUnits` varchar(19) default NULL,
+  `TotalUnitOfUseSizeValue` double default NULL,
+  `TotalUnitOfUseSizeUnits` varchar(19) default NULL,
+  `is_retired` smallint(6) default '0',
+  `prescribe_by_brand` smallint(6) default '0',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `MPUU`
+--
+
+DROP TABLE IF EXISTS `MPUU`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `MPUU` (
+  `id` varchar(19) NOT NULL,
+  `PreferredTerm` varchar(1000) default '',
+  `FullySpecifiedname` varchar(1000) default NULL,
+  `UnitDoseFormIndicator` varchar(19) default NULL,
+  `UnitDoseFormSizeValue` double default NULL,
+  `UnitDoseFormSizeUnits` varchar(19) default NULL,
+  `UnitDoseType` varchar(19) default NULL,
+  `ManufacturedDoseForm` varchar(19) default NULL,
+  `MP` varchar(19) default NULL,
+  `is_retired` smallint(6) default '0',  `prescribe_by_brand` smallint(6) default '0',
+
+  PRIMARY KEY  (`id`),
+  KEY `MPUU_MP` (`MP`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+
+
+--
+-- Table structure for table `MPUUSAI`
+--
+
+DROP TABLE IF EXISTS `MPUUSAI`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `MPUUSAI` (
+  `id` varchar(19) NOT NULL,
+  `MPUU` varchar(19) default '',
+  `base_ingredient` varchar(19) default NULL,
+  `salt_ingredient` varchar(19) default NULL,
+  `PSRT_ID` varchar(19) default NULL,
+  `PreferredTermOrder` double default NULL,  `BaseFormStrengthNumeratorValue` double default NULL,
+  `BaseFormStrengthNumeratorUnits` varchar(19) default NULL,
+  `BaseFormStrengthDenominatorValue` double default NULL,
+  `BaseFormStrengthDenominatorUnits` varchar(19) default NULL,
+  `BaseFormStrengthOtherRepresentation` varchar(255) default NULL,  `SaltFormStrengthNumeratorValue` double default NULL,
+  `SaltFormStrengthNumeratorUnits` varchar(19) default NULL,
+  `SaltFormStrengthDenominatorValue` double default NULL,
+  `SaltFormStrengthDenominatorUnits` varchar(19) default NULL,
+  `SaltFormStrengthOtherRepresentation` varchar(255) default NULL,
+  `boss_type` varchar(4) default NULL,
+
+  PRIMARY KEY  (`id`),
+  KEY `MPUUSAI_MPUU` (`MPUU`),  KEY `MPUUSAI_base_ingredient` (`base_ingredient`),  KEY `MPUUSAI_salt_ingredient` (`salt_ingredient`)
+
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+
+
+--
+-- Table structure for table `MSP`
+--
+
+DROP TABLE IF EXISTS `MSP`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `MSP` (
+  `id` varchar(19) NOT NULL,
+  `FullySpecifiedName` varchar(255) default NULL,
+  `PreferredTerm` varchar(255) default NULL,
+  `country` varchar(255) default NULL,
+  `is_retired` smallint(6) default '0',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+
+
+--
+-- Table structure for table `PF`
+--
+
+DROP TABLE IF EXISTS `PF`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `PF` (
+  `id` varchar(19) NOT NULL,
+  `FullySpecifiedName` varchar(255) default NULL,
+  `PreferredTerm` varchar(255) default NULL,
+  `Form` varchar(19) default NULL,
+  `Sponsor` varchar(19) default NULL,
+  `is_retired` smallint(6) default '0',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `PMI`
+--
+
+DROP TABLE IF EXISTS `PMI`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `PMI` (
+  `id` varchar(19) NOT NULL,
+  `FullySpecifiedName` varchar(255) default NULL,
+  `PreferredTerm` varchar(255) default NULL,
+  `is_retired` smallint(6) default '0',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `PSRT`
+--
+
+DROP TABLE IF EXISTS `PSRT`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `PSRT` (
+  `id` varchar(19) NOT NULL,
+  `FullySpecifiedName` varchar(255) default NULL,
+  `PreferredTerm` varchar(255) default NULL,
+  `is_retired` smallint(6) default '0',
+  `type_code` text default NULL,
+
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+
+
+--
+-- Table structure for table `THT`
+--
+
+DROP TABLE IF EXISTS `THT`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `THT` (
+  `id` varchar(19) NOT NULL,
+  `TPP` varchar(19) default NULL,
+  `TPUU` varchar(19) default NULL,
+  `UnitOfUseQuantityValue` double default NULL,
+  `UnitOfUseQuantityUnits` varchar(19) default NULL,
+  `UnitOfUseSizeValue` double default NULL,
+  `UnitOfUseSizeUnits` varchar(19) default NULL,
+  PRIMARY KEY  (`id`),
+  KEY `THT_TPP` (`TPP`),
+  KEY `THT_TPUU` (`TPUU`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `TP`
+--
+
+DROP TABLE IF EXISTS `TP`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `TP` (
+  `id` varchar(19) NOT NULL,
+  `PreferredTerm` varchar(1000) default '',
+  `FullySpecifiedname` varchar(1000) default NULL,
+  `Sponsor` varchar(19) default NULL,
+  `is_retired` smallint(6) default '0',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `TPP`
+--
+
+DROP TABLE IF EXISTS `TPP`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `TPP` (
+  `id` varchar(19) NOT NULL,
+  `PreferredTerm` varchar(1000) default '',
+  `FullySpecifiedname` varchar(1000) default NULL,
+  `TP` varchar(19) default NULL,
+  `MPP` varchar(19) default NULL,
+  `OtherPackInformation` varchar(255) default NULL,
+  `TotalUnitOfUseQuantityValue` double default NULL,
+  `TotalUnitOfUseQuantityUnits` varchar(19) default NULL,
+  `TotalUnitOfUseSizeValue` double default NULL,
+  `TotalUnitOfUseSizeUnits` varchar(19) default NULL,
+  `is_retired` smallint(6) default '0',
+  PRIMARY KEY  (`id`),
+  KEY `TPP_TP` (`TP`),
+  KEY `TPP_MPP` (`MPP`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `TPUU`
+--
+
+DROP TABLE IF EXISTS `TPUU`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `TPUU` (
+  `id` varchar(19) NOT NULL,
+  `PreferredTerm` varchar(1000) default '',
+  `FullySpecifiedname` varchar(1000) default NULL,
+  `OtherIdentifyingInformation` varchar(255) default NULL,
+  `ManufacturedDoseForm` varchar(19) default NULL,
+  `ProprietaryDoseForm` varchar(19) default NULL,
+  `MPUU` varchar(19) default NULL,
+  `TP` varchar(19) default NULL,
+  `is_retired` smallint(6) default '0',
+  PRIMARY KEY  (`id`),
+  KEY `TPUU_TP` (`TP`),
+  KEY `TPUU_MPUU` (`MPUU`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+
+
+--
+-- Table structure for table `MP_has_substance`
+--
+
+DROP TABLE IF EXISTS `MP_has_substance`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `MP_has_substance` (
+  `id` varchar(19) NOT NULL,
+  `MP` varchar(19) NOT NULL,
+  `substance_id` varchar(19) default NULL,
+
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;--
+-- Table structure for table `UDFI`
+--
+
+DROP TABLE IF EXISTS `UDFI`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `UDFI` (
+  `id` varchar(19) NOT NULL,
+  `FullySpecifiedName` varchar(255) default NULL,
+  `PreferredTerm` varchar(255) default NULL,
+  `is_retired` smallint(6) default '0',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `UOM`
+--
+
+DROP TABLE IF EXISTS `UOM`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `UOM` (
+  `id` varchar(19) NOT NULL,
+  `FullySpecifiedName` varchar(255) default NULL,
+  `PreferredTerm` varchar(255) default NULL,
+  `parentUOM` varchar(19) default NULL,
+  `is_retired` smallint(6) default '0',
+  PRIMARY KEY  (`id`),
+  KEY `UOM_parentUOM` (`parentUOM`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+
+
+--
+-- Table structure for table `description_types`
+--
+
+DROP TABLE IF EXISTS `description_types`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `description_types` (
+  `id` varchar(19) NOT NULL,
+  `type_name` varchar(25) default '',
+  `short_code` varchar(8) default '',
+  `max_length` int(11) default '0' COMMENT 'max size of this kind of alternate name in characters. eg: theres only room for 12 chars on a unit dose blister pack',
+  `description` varchar(150) default '' COMMENT 'full description of this type of name, preferably with examples',
+  `is_retired` smallint(6) default '0',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `descriptions`
+--
+
+DROP TABLE IF EXISTS `descriptions`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `descriptions` (
+  `id` varchar(19) NOT NULL,
+  `is_retired` smallint(6) default '0',
+  `parent_id` varchar(19) default NULL,
+  `parent_table` varchar(30) default '',
+  `term` varchar(1000) default '',
+  `description_type_id` varchar(19) default '',
+  `valid_from` date default '0000-00-00' COMMENT 'defines start of period during which this name applies - blank means valid when data was created',
+  `valid_to` date default '0000-00-00' COMMENT 'defines end  of period during which this name applies - blank means valid forever',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+
+
+
+
+--
+-- Table structure for table `ctpp_pharmacodes`
+--
+
+DROP TABLE IF EXISTS `ctpp_pharmacodes`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `ctpp_pharmacodes` (
+  `pharmacode` int(11) NOT NULL,
+  `ctpp_id` varchar(19) NOT NULL,
+  `is_primary` tinyint(4) default '0',
+  PRIMARY KEY  (`pharmacode`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+
+
+
+
+--
+-- Table structure for table `nzmt_pharmac_subsidy_codes`
+--
+
+DROP TABLE IF EXISTS `nzmt_pharmac_subsidy_codes`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `nzmt_pharmac_subsidy_codes` (
+  `pharmac_subsidy_code` int(11) NOT NULL,
+  `sctid` varchar(19) NOT NULL,
+  `table_name` varchar(10) NOT NULL,  `is_primary` tinyint(4) default '0',
+  PRIMARY KEY  (`pharmac_subsidy_code`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+
+
+--
+-- Table structure for table `gtins`
+--
+
+DROP TABLE IF EXISTS `gtins`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `gtins` (
+  `gtin` bigint NOT NULL,
+  `ctpp_id` varchar(19) NOT NULL,
+  `date_from` date default '0000-00-00',
+  `date_to` date default '0000-00-00',
+
+
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+
+
+--
+-- Table structure for table `ms_dataset`
+--
+
+DROP TABLE IF EXISTS `ms_dataset`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `ms_dataset` (
+  `ms_dataset_id` bigint(20) unsigned NOT NULL auto_increment,
+  `edition` varchar(80) NOT NULL,
+  `published_date` date NOT NULL default '0000-00-00',
+  `import_time` timestamp NOT NULL,
+  PRIMARY KEY  (`ms_dataset_id`),
+  UNIQUE KEY `ms_dataset_id` (`ms_dataset_id`),
+  KEY `ms_dataset_import_time` (`import_time`),
+  KEY `ms_dataset_published_date` (`published_date`)
+) ENGINE=MyISAM AUTO_INCREMENT=22582 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;--
+-- Table structure for table `ms_alias`
+--
+
+DROP TABLE IF EXISTS `ms_alias`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `ms_alias` (
+  `ms_alias_id` bigint(20) unsigned NOT NULL auto_increment,
+  `ms_dataset_id` bigint(20) NOT NULL default '0',
+  `prod_name_id` bigint(20) NOT NULL COMMENT 'medsafe id',
+  `product_id` bigint(20) NOT NULL default '0',
+  `alias` varchar(255) default '',
+  PRIMARY KEY  (`ms_alias_id`),
+  UNIQUE KEY `ms_alias_id` (`ms_alias_id`),
+  KEY `ms_alias_prod_name_id` (`prod_name_id`),
+  KEY `ms_alias_product_id` (`product_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=22582 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `ms_application`
+--
+
+DROP TABLE IF EXISTS `ms_application`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `ms_application` (
+  `ms_application_id` bigint(20) unsigned NOT NULL auto_increment,
+  `ms_dataset_id` bigint(20) NOT NULL default '0',
+  `appl_product_id` bigint(20) NOT NULL COMMENT 'medsafe id',
+  `application_id` bigint(20) NOT NULL default '0',
+  `product_id` bigint(20) NOT NULL default '0',
+  `sponsor` bigint(20) NOT NULL default '0' COMMENT 'key to ms_name_and_address table',
+  `appl_date` date default NULL COMMENT 'Medsafes default value is 1900/01/01',
+  `appl_type` varchar(255) default '',
+  `appl_status` varchar(255) default '',
+  `grant_ref_date` date default NULL COMMENT 'Medsafes default value is 1900/01/01',
+  `priority` varchar(10) default '',
+  `last_rfi_date` date default NULL,
+  `payment_date` date default NULL,
+  `appl_change` varchar(255) default '',
+  PRIMARY KEY  (`ms_application_id`),
+  UNIQUE KEY `ms_application_id` (`ms_application_id`),
+  KEY `ms_application_appl_product_id` (`appl_product_id`),
+  KEY `ms_application_application_id` (`application_id`),
+  KEY `ms_application_product_id` (`product_id`),
+  KEY `ms_application_sponsor` (`sponsor`)
+) ENGINE=MyISAM AUTO_INCREMENT=216070 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `ms_classification`
+--
+
+DROP TABLE IF EXISTS `ms_classification`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `ms_classification` (
+  `ms_classification_id` bigint(20) unsigned NOT NULL auto_increment,
+  `ms_dataset_id` bigint(20) NOT NULL default '0',
+  `substance_id` bigint(20) NOT NULL default '0',
+  `substance_name` varchar(255) NOT NULL default ' ',
+  `classification` varchar(50) NOT NULL default '',
+  `conditions` text default '',
+  PRIMARY KEY  (`ms_classification_id`),
+  UNIQUE KEY `ms_classification_id` (`ms_classification_id`),
+  KEY `ms_classification_substance_id` (`substance_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=71036 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `ms_component`
+--
+
+DROP TABLE IF EXISTS `ms_component`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `ms_component` (
+  `ms_component_id` bigint(20) unsigned NOT NULL auto_increment,
+  `ms_dataset_id` bigint(20) NOT NULL default '0',
+  `component_id` bigint(20) NOT NULL COMMENT 'medsafe id',
+  `product_id` bigint(20) NOT NULL default '0',
+  `description` varchar(255) default '',
+  PRIMARY KEY  (`ms_component_id`),
+  UNIQUE KEY `ms_component_id` (`ms_component_id`),
+  KEY `ms_component_component_id` (`component_id`),
+  KEY `ms_component_product_id` (`product_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=406670 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `ms_ingredient`
+--
+
+DROP TABLE IF EXISTS `ms_ingredient`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `ms_ingredient` (
+  `ms_ingredient_id` bigint(20) unsigned NOT NULL auto_increment,
+  `ms_dataset_id` bigint(20) NOT NULL default '0',
+  `ingredient_id` bigint(20) default NULL,
+  `component_id` bigint(20) NOT NULL default '0',
+  `ingredient_type` varchar(5) NOT NULL default '',
+  `substance_id` bigint(20) NOT NULL default '0',
+  `manufacturer` bigint(20) default '0' COMMENT 'key to ms_name_and_address table',
+  `quantity` varchar(255) default '0',
+  PRIMARY KEY  (`ms_ingredient_id`),
+  UNIQUE KEY `ms_ingredient_id` (`ms_ingredient_id`),
+  KEY `ms_ingredient_ingedient_id` (`ingredient_id`),
+  KEY `ms_ingredient_component_id` (`component_id`),
+  KEY `ms_ingredient_substance_id` (`substance_id`),
+  KEY `ms_ingredient_manufacturer` (`manufacturer`)
+) ENGINE=MyISAM AUTO_INCREMENT=2739573 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `ms_ingredient_type`
+--
+
+DROP TABLE IF EXISTS `ms_ingredient_type`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `ms_ingredient_type` (
+  `ms_ingredient_type_id` bigint(20) unsigned NOT NULL auto_increment,
+  `ms_dataset_id` bigint(20) NOT NULL default '0',
+  `ingredient_type_id` bigint(20) NOT NULL COMMENT 'medsafe id',
+  `description` varchar(100) default '',
+  `ing_group` varchar(15) default '',
+  PRIMARY KEY  (`ms_ingredient_type_id`),
+  UNIQUE KEY `ms_ingredient_type_id` (`ms_ingredient_type_id`),
+  KEY `ms_ingredient_type_ingredient_type_id` (`ingredient_type_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=811 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `ms_name_and_address`
+--
+
+DROP TABLE IF EXISTS `ms_name_and_address`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `ms_name_and_address` (
+  `ms_name_and_address_id` bigint(20) unsigned NOT NULL auto_increment,
+  `ms_dataset_id` bigint(20) NOT NULL default '0',
+  `name_and_address_id` bigint(20) NOT NULL COMMENT 'medsafe id',
+  `name_and_address` varchar(255) NOT NULL default '',
+  `country` varchar(50) NOT NULL default '',
+  PRIMARY KEY  (`ms_name_and_address_id`),
+  UNIQUE KEY `ms_name_and_address_id` (`ms_name_and_address_id`),
+  KEY `ms_name_and_address_name_and_address_id` (`name_and_address_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=139054 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `ms_pack_shelf_life`
+--
+
+DROP TABLE IF EXISTS `ms_pack_shelf_life`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `ms_pack_shelf_life` (
+  `ms_pack_shelf_life_id` bigint(20) unsigned NOT NULL auto_increment,
+  `ms_dataset_id` bigint(20) NOT NULL default '0',
+  `pack_shelf_life_id` bigint(20) NOT NULL COMMENT 'medsafe id',
+  `package_id` bigint(20) NOT NULL default '0',
+  `description` varchar(255) default '',
+  PRIMARY KEY  (`ms_pack_shelf_life_id`),
+  UNIQUE KEY `ms_pack_shelf_life_id` (`ms_pack_shelf_life_id`),
+  KEY `ms_pack_shelf_life_pack_shelf_life_id` (`pack_shelf_life_id`),
+  KEY `ms_pack_shelf_life_package_id` (`package_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=644187 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `ms_package`
+--
+
+DROP TABLE IF EXISTS `ms_package`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `ms_package` (
+  `ms_package_id` bigint(20) unsigned NOT NULL auto_increment,
+  `ms_dataset_id` bigint(20) NOT NULL default '0',
+  `package_id` bigint(20) NOT NULL COMMENT 'medsafe id',
+  `product_id` bigint(20) NOT NULL default '0',
+  `description` varchar(255) NOT NULL default '',
+  `pkg_status` varchar(40) default '',
+  `nzmt_sctid` varchar(19) NOT NULL default '',
+  PRIMARY KEY  (`ms_package_id`),
+  UNIQUE KEY `ms_package_id` (`ms_package_id`),
+  KEY `ms_package_package_id` (`package_id`),
+  KEY `ms_package_product_id` (`product_id`),
+  KEY `ms_package_nzmt_sctid` (`nzmt_sctid`)
+) ENGINE=MyISAM AUTO_INCREMENT=615442 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `ms_prod_atc`
+--
+
+DROP TABLE IF EXISTS `ms_prod_atc`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `ms_prod_atc` (
+  `ms_prod_atc_id` bigint(20) unsigned NOT NULL auto_increment,
+  `ms_dataset_id` bigint(20) NOT NULL default '0',
+  `prod_atc_id` bigint(20) NOT NULL COMMENT 'medsafe id',
+  `product_id` bigint(20) NOT NULL default '0',
+  `atc_code` varchar(10) default '',
+  `description` varchar(255) default NULL,
+  PRIMARY KEY  (`ms_prod_atc_id`),
+  UNIQUE KEY `ms_prod_atc_id` (`ms_prod_atc_id`),
+  KEY `ms_prod_atc_prod_atc_id` (`prod_atc_id`),
+  KEY `ms_prod_atc_product_id` (`product_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=347529 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `ms_prod_report`
+--
+
+DROP TABLE IF EXISTS `ms_prod_report`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `ms_prod_report` (
+  `ms_prod_report_id` bigint(20) unsigned NOT NULL auto_increment,
+  `ms_dataset_id` bigint(20) NOT NULL default '0',
+  `prod_report_id` bigint(20) NOT NULL COMMENT 'medsafe id',
+  `product_id` bigint(20) NOT NULL default '0',
+  `report_type` varchar(5) default '',
+  `report_reference` varchar(255) default '' COMMENT 'contains url to datasheet or consumer cmi',
+  PRIMARY KEY  (`ms_prod_report_id`),
+  UNIQUE KEY `ms_prod_report_id` (`ms_prod_report_id`),
+  KEY `ms_prod_report_prod_report_id` (`prod_report_id`),
+  KEY `ms_prod_report_product_id` (`product_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=137841 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `ms_product`
+--
+
+DROP TABLE IF EXISTS `ms_product`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `ms_product` (
+  `ms_product_id` bigint(20) unsigned NOT NULL auto_increment,
+  `ms_dataset_id` bigint(20) NOT NULL default '0',
+  `product_id` bigint(20) NOT NULL COMMENT 'medsafe id',
+  `file_number` varchar(30) NOT NULL default '',
+  `name` varchar(255) NOT NULL default '',
+  `dose_form` varchar(50) NOT NULL default '',
+  `strength` varchar(20) default '',
+  `identifier` varchar(50) default '',
+  `sponsor` bigint(20) NOT NULL default '0' COMMENT 'key to ms_name_and_address table',
+  `product_type` varchar(50) NOT NULL default '',
+  `classification` varchar(50) NOT NULL default '',
+  `reg_situation` varchar(50) NOT NULL default '',
+  `appl_date` date default NULL,
+  `approval_date` date default NULL,
+  `expiry_date` date default NULL,
+  `withdrawal_date` date default NULL,
+  `reference_product` bigint(20) default '0',
+  `piggy_back_pl` bigint(20) default '0',
+  `interchangeable` tinyint(4) default '0',
+  `non_interchangeable` tinyint(4) default '0',
+  `gatt_date` date default NULL,
+  `m2_monitoring_flag` tinyint(4) default '0',  PRIMARY KEY  (`ms_product_id`),
+  UNIQUE KEY `ms_product_id` (`ms_product_id`),
+  KEY `ms_product_product_id` (`product_id`),
+  KEY `ms_product_sponsor` (`sponsor`),
+  KEY `ms_product_reference_product` (`reference_product`),
+  KEY `ms_product_piggy_back_pl` (`piggy_back_pl`)
+) ENGINE=MyISAM AUTO_INCREMENT=375725 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `ms_production_chain`
+--
+
+DROP TABLE IF EXISTS `ms_production_chain`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `ms_production_chain` (
+  `ms_production_chain_id` bigint(20) unsigned NOT NULL auto_increment,
+  `ms_dataset_id` bigint(20) NOT NULL default '0',
+  `production_chain_id` bigint(20) NOT NULL COMMENT 'medsafe id',
+  `product_id` bigint(20) NOT NULL default '0',
+  `manufacturer` bigint(20) NOT NULL default '0' COMMENT 'key to ms_name_and_address table',
+  `production_type` varchar(100) default '',
+  `ingredient_id` bigint(20) default '0',
+  PRIMARY KEY  (`ms_production_chain_id`),
+  UNIQUE KEY `ms_production_chain_id` (`ms_production_chain_id`),
+  KEY `ms_production_chain_production_chain_id` (`production_chain_id`),
+  KEY `ms_production_chain_product_id` (`product_id`),
+  KEY `ms_production_chain_manufacturer` (`manufacturer`),
+  KEY `ms_production_chain_ingredient_id` (`ingredient_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=1880234 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `ms_route_of_admin`
+--
+
+DROP TABLE IF EXISTS `ms_route_of_admin`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `ms_route_of_admin` (
+  `ms_route_of_admin_id` bigint(20) unsigned NOT NULL auto_increment,
+  `ms_dataset_id` bigint(20) NOT NULL default '0',
+  `route_of_admin_id` bigint(20) NOT NULL COMMENT 'medsafe id',
+  `component_id` bigint(20) NOT NULL default '0',
+  `route` varchar(25) default '',
+  PRIMARY KEY  (`ms_route_of_admin_id`),
+  UNIQUE KEY `ms_route_of_admin_id` (`ms_route_of_admin_id`),
+  KEY `ms_route_of_admin_route_of_admin_id` (`route_of_admin_id`),
+  KEY `ms_route_of_admin_component_id` (`component_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=299723 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `ms_substance`
+--
+
+DROP TABLE IF EXISTS `ms_substance`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `ms_substance` (
+  `ms_substance_id` bigint(20) unsigned NOT NULL auto_increment,
+  `ms_dataset_id` bigint(20) NOT NULL default '0',
+  `substance_id` bigint(20) NOT NULL COMMENT 'medsafe id',
+  `preferred_name` varchar(255) NOT NULL default '',
+  `cas_number` decimal(10,0) default '0',
+  `base_substance_id` bigint(20) default '0',  PRIMARY KEY  (`ms_substance_id`),
+  UNIQUE KEY `ms_substance_id` (`ms_substance_id`),
+  KEY `ms_substance_substance_id` (`substance_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=126680 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `ms_substance_name`
+--
+
+DROP TABLE IF EXISTS `ms_substance_name`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `ms_substance_name` (
+  `ms_substance_name_id` bigint(20) unsigned NOT NULL auto_increment,
+  `ms_dataset_id` bigint(20) NOT NULL default '0',
+  `substance_name_id` bigint(20) NOT NULL COMMENT 'medsafe id',
+  `substance_id` bigint(20) NOT NULL default '0',
+  `substance_name` varchar(255) default '',
+  `synonym_code` varchar(5) NOT NULL default '' COMMENT 'code 01 is primary name. 02, 03, etc are secondary names',
+  PRIMARY KEY  (`ms_substance_name_id`),
+  UNIQUE KEY `ms_substance_name_id` (`ms_substance_name_id`),
+  KEY `ms_substance_name_substance_name_id` (`substance_name_id`),
+  KEY `ms_substance_name_substance_id` (`substance_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=240331 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+
+
+--
+-- Table structure for table `ms_substance_sct`
+--
+
+DROP TABLE IF EXISTS `ms_substance_sct`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `ms_substance_sct` (
+  `ms_substance_sct_id` bigint(20) unsigned NOT NULL auto_increment,
+  `ms_dataset_id` bigint(20) NOT NULL default '0',
+  `substance_sctid` varchar(19) NOT NULL COMMENT 'NZMT substance id',
+  `substance_id` bigint(20) NOT NULL COMMENT 'Medsafe substance id',  PRIMARY KEY  (`ms_substance_sct_id`),
+  UNIQUE KEY `ms_substance_sct_id` (`ms_substance_sct_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=126680 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;--
+-- Table structure for table `nzmt_atc_codes`
+--
+
+DROP TABLE IF EXISTS `nzmt_atc_codes`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `nzmt_atc_codes` (
+  `nzmt_atc_codes_id` bigint(20) unsigned NOT NULL auto_increment,
+  `atc_code` varchar(10) NOT NULL,
+  `name` varchar(255) default '',
+  PRIMARY KEY  (`nzmt_atc_codes_id`),
+  UNIQUE KEY `nzmt_atc_codes_id` (`nzmt_atc_codes_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=5654 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `nzmt_atc_links`
+--
+
+DROP TABLE IF EXISTS `nzmt_atc_links`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `nzmt_atc_links` (
+  `nzmt_atc_links_id` bigint(20) unsigned NOT NULL auto_increment,
+  `sctid` varchar(19) NOT NULL,
+  `atc_code` varchar(10) NOT NULL,
+  `table_name` varchar(30) NOT NULL,
+  `is_primary` tinyint(4) default '0',
+  PRIMARY KEY  (`nzmt_atc_links_id`),
+  UNIQUE KEY `nzmt_atc_links_id` (`nzmt_atc_links_id`),
+  KEY `nzmt_atc_links_sctid` (`sctid`),
+  KEY `nzmt_atc_links_atc_code` (`atc_code`)
+) ENGINE=MyISAM AUTO_INCREMENT=8166 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `nzmt_status_codes`
+--
+
+DROP TABLE IF EXISTS `nzmt_status_codes`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `nzmt_status_codes` (
+  `nzmt_status_codes_id` int(10) unsigned NOT NULL,
+  `description` varchar(30) NOT NULL,
+  PRIMARY KEY  (`nzmt_status_codes_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `preferredterm_index`
+--
+
+DROP TABLE IF EXISTS `preferredterm_index`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `preferredterm_index` (
+  `id` varchar(19) NOT NULL,
+  `PreferredTerm` varchar(1000) default '',
+  `search_text` varchar(1000) default NULL,
+  `pharmacode` int(11) default NULL,
+  `table_name` varchar(70) default NULL,
+  `has_subsidy` tinyint(4) default '0',
+  `synonym_for` varchar(19) default NULL,
+  `parentMP` varchar(19) default '',
+  `num_children` int(11) default '0',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;--
+-- Table structure for table `prescribing_term_index`
+--
+
+DROP TABLE IF EXISTS `prescribing_term_index`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `prescribing_term_index` (
+  `ctpp_id` varchar(19) NOT NULL,
+  `ctpp_pt` varchar(1000) default '',
+  `ctpp_pharmacode` int(11) default NULL,
+  `ctpp_atc_code` varchar(10) default NULL,  `generic_prescribing_term` varchar(255) default '',
+  `generic_concept_id` varchar(19) default '',
+  `generic_concept_table` varchar(30) default '',
+  `generic_description_id` varchar(19) default NULL,
+  `trade_prescribing_term` varchar(255) default '',
+  `trade_concept_id` varchar(19) default NULL,  `trade_concept_table` varchar(30) default '',  `trade_description_id` varchar(19) default NULL,
+  `prescribe_by_brand` tinyint(4) default '0',  `is_subsidised` tinyint(4) default '0',
+  PRIMARY KEY  (`ctpp_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;--
+-- Table structure for table `prescribing_term_selection_list`
+--
+
+DROP TABLE IF EXISTS `prescribing_term_selection_list`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `prescribing_term_selection_list` (
+  `concept_id` varchar(19) default NULL,
+  `term_type` varchar(10) default NULL,
+  `description_id` varchar(19) default NULL,
+  `prescribing_term` varchar(255) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `charting_term_index`
+--
+
+DROP TABLE IF EXISTS `charting_term_index`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `charting_term_index` (
+  `ctpp_id` varchar(19) NOT NULL,
+  `ctpp_pt` varchar(1000) default '',
+  `ctpp_pharmacode` int(11) default NULL,
+  `ctpp_atc_code` varchar(10) default NULL,  `generic_charting_term` varchar(255) default '',
+  `generic_concept_id` varchar(19) default '',
+  `generic_concept_table` varchar(30) default '',
+  `generic_description_id` varchar(19) default NULL,
+  `trade_charting_term` varchar(255) default '',
+  `trade_concept_id` varchar(19) default NULL,  `trade_concept_table` varchar(30) default '',  `trade_description_id` varchar(19) default NULL,
+  `prescribe_by_brand` tinyint(4) default '0',  `is_subsidised` tinyint(4) default '0',
+  PRIMARY KEY  (`ctpp_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;--
+-- Table structure for table `ps_schedule`
+--
+
+DROP TABLE IF EXISTS `ps_schedule`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `ps_schedule` (
+  `ps_schedule_id` bigint(20) unsigned NOT NULL auto_increment,
+  `content_type` text NOT NULL default 'CS' COMMENT 'CS for Community Schedule',
+  `published_date` date default '0000-00-00' COMMENT 'Schedule Effective date',
+  `title` varchar(80) NOT NULL,
+  `edition` varchar(80) NOT NULL,
+  `volume` varchar(80) NOT NULL,
+  `number` varchar(80) NOT NULL,  `xml_filename` varchar(255) NOT NULL,  `date_created` timestamp NOT NULL,
+  PRIMARY KEY  (`ps_schedule_id`),
+  UNIQUE KEY `ps_schedule_id` (`ps_schedule_id`),
+  KEY `ps_schedule_published_date` (`published_date`),
+  KEY `ps_schedule_date_created` (`date_created`)
+) ENGINE=MyISAM AUTO_INCREMENT=48347 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `ps_atc`
+--
+
+DROP TABLE IF EXISTS `ps_atc`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `ps_atc` (
+  `ps_atc_id` bigint(20) unsigned NOT NULL auto_increment,
+  `ps_schedule_id` bigint(20) NOT NULL default '0' COMMENT 'primarily used to delete entire schedules when things go wrong',
+  `parent_ps_atc_id` bigint(20) default '0',
+  `pharmac_id` varchar(15) NOT NULL,
+  `section_code` char(1) default '',
+  `name` varchar(255) NOT NULL default '',
+  `level` tinyint(4) NOT NULL default '0',
+  PRIMARY KEY  (`ps_atc_id`),
+  UNIQUE KEY `ps_atc_id` (`ps_atc_id`),
+  KEY `ps_atc_pharmac_id` (`pharmac_id`),
+  KEY `ps_atc_parent_ps_atc_id` (`parent_ps_atc_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=48347 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `ps_brand`
+--
+
+DROP TABLE IF EXISTS `ps_brand`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `ps_brand` (
+  `ps_brand_id` bigint(20) unsigned NOT NULL auto_increment,
+  `ps_schedule_id` bigint(20) NOT NULL default '0',
+  `ps_formulation_id` bigint(20) NOT NULL default '0' COMMENT 'parent id',
+  `pharmac_id` varchar(15) NOT NULL default '',
+  `name` varchar(255) NOT NULL,
+  `hss` tinyint(4) NOT NULL default '0',
+  `imm` tinyint(4) NOT NULL default '0',
+  `sole_supply` tinyint(4) NOT NULL default '0',
+  `to_be_delisted` date default NULL COMMENT 'Future date when this pack will be removed from the schedule',
+  `to_be_sole_supply` date default NULL,
+
+  `update_summary` varchar(255) default '' COMMENT 'List of fields changed in this record, and +/- indicating direction of change',
+  `section29` tinyint(4) NOT NULL default '0',
+  PRIMARY KEY  (`ps_brand_id`),
+  UNIQUE KEY `ps_brand_id` (`ps_brand_id`),
+  KEY `ps_brand_pharmac_id` (`pharmac_id`),
+  KEY `ps_brand_ps_formulation_id` (`ps_formulation_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=239118 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `ps_cfbp`
+--
+
+DROP TABLE IF EXISTS `ps_cfbp`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `ps_cfbp` (
+  `ps_schedule_id` bigint(20) NOT NULL default '0',
+  `ps_pack_id` bigint(20) unsigned NOT NULL default '0',
+  `ps_brand_id` bigint(20) unsigned NOT NULL default '0',
+  `brand_name` varchar(255) NOT NULL,
+  `ps_formulation_id` bigint(20) unsigned NOT NULL default '0',
+  `formulation_name` varchar(255) NOT NULL,
+  `ps_chemical_id` bigint(20) unsigned NOT NULL default '0',
+  `chemical_name` varchar(255) default '',
+  KEY `ps_cfbp_ps_schedule_id` (`ps_schedule_id`),
+  KEY `ps_cfbp_ps_pack_id` (`ps_pack_id`),
+  KEY `ps_cfbp_ps_brand_id` (`ps_brand_id`),
+  KEY `ps_cfbp_ps_formulation_id` (`ps_formulation_id`),
+  KEY `ps_cfbp_ps_chemical_id` (`ps_chemical_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `ps_chemical`
+--
+
+DROP TABLE IF EXISTS `ps_chemical`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `ps_chemical` (
+  `ps_chemical_id` bigint(20) unsigned NOT NULL auto_increment,
+  `ps_schedule_id` bigint(20) NOT NULL default '0',
+  `ps_atc_id` bigint(20) NOT NULL default '0' COMMENT 'parent id',
+  `pharmac_id` varchar(15) NOT NULL default '',
+  `name` varchar(255) default '',
+  `statim` varchar(4) default '',
+  PRIMARY KEY  (`ps_chemical_id`),
+  UNIQUE KEY `ps_chemical_id` (`ps_chemical_id`),
+  KEY `ps_chemical_pharmac_id` (`pharmac_id`),
+  KEY `ps_chemical_ps_atc_id` (`ps_atc_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=100939 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `ps_formulation`
+--
+
+DROP TABLE IF EXISTS `ps_formulation`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `ps_formulation` (
+  `ps_formulation_id` bigint(20) unsigned NOT NULL auto_increment,
+  `ps_schedule_id` bigint(20) NOT NULL default '0',
+  `ps_chemical_id` bigint(20) NOT NULL default '0' COMMENT 'parent id',
+  `pharmac_id` varchar(15) NOT NULL default '',
+  `name` varchar(255) NOT NULL,
+  `rank` smallint(6) NOT NULL default '0' COMMENT 'sort order of formulations in printed output?',
+  `update_summary` varchar(255) default '' COMMENT 'List of fields changed in this record, and +/- indicating direction of change',
+  `units` varchar(20) default '',
+  `weight` decimal(15,4) default '0.0000',
+  `safety` varchar(12) default '',
+  `statim` varchar(4) default '',
+  PRIMARY KEY  (`ps_formulation_id`),
+  UNIQUE KEY `ps_formulation_id` (`ps_formulation_id`),
+  KEY `ps_formulation_pharmac_id` (`pharmac_id`),
+  KEY `ps_formulation_ps_chemical_id` (`ps_chemical_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=210355 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `ps_note`
+--
+
+DROP TABLE IF EXISTS `ps_note`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `ps_note` (
+  `ps_note_id` bigint(20) unsigned NOT NULL auto_increment,
+  `ps_schedule_id` bigint(20) NOT NULL default '0',
+  `ps_parent_id` bigint(20) default '0',  `parent_table` varchar(20) default '',
+  `note_class` varchar(30) default '' COMMENT 'note, guidance, or request',
+  `notes_xml` text COMMENT 'raw XML/HTML content from schedule.xml',
+  `cached_html` text COMMENT 'cached copy of rendered html for this note',
+  PRIMARY KEY  (`ps_note_id`),
+  UNIQUE KEY `ps_note_id` (`ps_note_id`),
+  KEY `ps_note_ps_parent_id` (`ps_parent_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=27267 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `ps_pack`
+--
+
+DROP TABLE IF EXISTS `ps_pack`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `ps_pack` (
+  `ps_pack_id` bigint(20) unsigned NOT NULL auto_increment,
+  `ps_schedule_id` bigint(20) NOT NULL default '0',
+  `ps_brand_id` bigint(20) NOT NULL default '0' COMMENT 'parent id',
+  `pharmac_id` varchar(15) NOT NULL default '',
+  `pharmacode` bigint(20) NOT NULL default '0' COMMENT 'Pharmacode extracted from pharmac_id',
+  `name` varchar(255) NOT NULL default '',
+  `specified` tinyint(4) NOT NULL default '0',
+  `originalpack` tinyint(4) NOT NULL default '0',
+  `costbrandsource` tinyint(4) NOT NULL default '0',
+  `subsidy` decimal(19,4) NOT NULL default '0.0000' COMMENT 'Pharmac subsidy amount',
+  `price` decimal(19,4) NOT NULL default '0.0000' COMMENT 'Contracted manufacturer price',
+  `surcharge` decimal(19,5) NOT NULL default '0.00000' COMMENT 'Dollars PER ITEM. NOT per pack. Important: surcharge has 5 decimal places in the xml',
+  `alternate` decimal(19,4) NOT NULL default '0.0000' COMMENT 'This value REPLACES the subsidy if conditions are met',
+  `multiple` decimal(19,4) NOT NULL default '0.0000',
+  `quantity` decimal(19,4) NOT NULL default '0.0000',
+  PRIMARY KEY  (`ps_pack_id`),
+  UNIQUE KEY `ps_pack_id` (`ps_pack_id`),
+  KEY `ps_pack_pharmac_id` (`pharmac_id`),
+  KEY `ps_pack_pharmacode` (`pharmacode`),
+  KEY `ps_pack_ps_brand_id` (`ps_brand_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=247037 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `ps_request`
+--
+
+DROP TABLE IF EXISTS `ps_request`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `ps_request` (
+  `ps_request_id` bigint(20) unsigned NOT NULL auto_increment,
+  `ps_schedule_id` bigint(20) NOT NULL default '0',
+  `ps_parent_id` bigint(20) default '0',
+  `parent_table` varchar(20) default '',
+  `to_approvers` varchar(40) NOT NULL default '',
+  `for_entitlements` varchar(40) NOT NULL default '',
+  `sa_form` varchar(255) default '' COMMENT 'name of special authority form',
+  `confidential` tinyint(4) default '0',
+  `edition` varchar(20) default '',
+  `funding` varchar(10) default '',
+  PRIMARY KEY  (`ps_request_id`),
+  UNIQUE KEY `ps_request_id` (`ps_request_id`),
+  KEY `ps_request_ps_parent_id` (`ps_parent_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=14937 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `ps_rule`
+--
+
+DROP TABLE IF EXISTS `ps_rule`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `ps_rule` (
+  `ps_rule_id` bigint(20) unsigned NOT NULL auto_increment,
+  `ps_schedule_id` bigint(20) NOT NULL default '0',
+  `ps_parent_id` bigint(20) default '0',
+  `parent_table` varchar(20) default '',
+  `type` varchar(20) default '',
+  `attribute` varchar(30) default '',
+  `value` decimal(15,4) default '0.0000',
+  `waiver` varchar(20) default '',
+  `xlink_href` varchar(20) default NULL,
+  `guideline` varchar(20) default NULL,
+  `nonprinting` tinyint(4) default '0',  `effective_date` date default NULL,
+  
+  PRIMARY KEY  (`ps_rule_id`),
+  UNIQUE KEY `ps_rule_id` (`ps_rule_id`),
+  KEY `ps_rule_ps_parent_id` (`ps_parent_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=112915 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `hml_schedule`
+--
+
+DROP TABLE IF EXISTS `hml_schedule`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `hml_schedule` (
+  `hml_schedule_id` bigint(20) unsigned NOT NULL auto_increment,
+  `content_type` text NOT NULL default 'HML' COMMENT 'HML for Hospital Medicines List',
+  `published_date` date default '0000-00-00' COMMENT 'HML Effective Date',
+  `title` varchar(80) NOT NULL,
+  `edition` varchar(80) NOT NULL,
+  `volume` varchar(80) NOT NULL,
+  `number` varchar(80) NOT NULL,
+  `xml_filename` varchar(255) NOT NULL,
+  `date_created` timestamp,
+  PRIMARY KEY  (`hml_schedule_id`),
+  UNIQUE KEY `hml_schedule_id` (`hml_schedule_id`),
+  KEY `hml_schedule_published_date` (`published_date`),
+  KEY `hml_schedule_date_created` (`date_created`)
+) ENGINE=MyISAM AUTO_INCREMENT=48347 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;--
+-- Table structure for table `hml_atc`
+--
+
+DROP TABLE IF EXISTS `hml_atc`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `hml_atc` (
+  `hml_atc_id` bigint(20) unsigned NOT NULL auto_increment,
+  `hml_schedule_id` bigint(20) NOT NULL default '0' COMMENT 'primarily used to delete entire schedules when things go wrong',
+  `parent_hml_atc_id` bigint(20) default '0',
+  `pharmac_id` varchar(15) NOT NULL,
+  `section_code` char(1) default '',
+  `name` varchar(255) NOT NULL default '',
+  `level` tinyint(4) NOT NULL default '0',
+  PRIMARY KEY  (`hml_atc_id`),
+  UNIQUE KEY `hml_atc_id` (`hml_atc_id`),
+  KEY `hml_atc_pharmac_id` (`pharmac_id`),
+  KEY `hml_atc_parent_hml_atc_id` (`parent_hml_atc_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=48347 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `hml_brand`
+--
+
+DROP TABLE IF EXISTS `hml_brand`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `hml_brand` (
+  `hml_brand_id` bigint(20) unsigned NOT NULL auto_increment,
+  `hml_schedule_id` bigint(20) NOT NULL default '0',
+  `hml_formulation_id` bigint(20) NOT NULL default '0' COMMENT 'parent id',
+  `pharmac_id` varchar(15) NOT NULL default '',
+  `name` varchar(255) NOT NULL,
+  `hss` tinyint(4) NOT NULL default '0',
+  `imm` tinyint(4) NOT NULL default '0',
+  `sole_supply` tinyint(4) NOT NULL default '0',
+  `to_be_delisted` date default NULL COMMENT 'Future date when this pack will be removed from the schedule',
+  `to_be_sole_supply` date default NULL,
+
+  `update_summary` varchar(255) default '' COMMENT 'List of fields changed in this record, and +/- indicating direction of change',
+  `section29` tinyint(4) NOT NULL default '0',
+
+  `is_dummy` tinyint(4) NOT NULL default '0',  PRIMARY KEY  (`hml_brand_id`),
+  UNIQUE KEY `hml_brand_id` (`hml_brand_id`),
+  KEY `hml_brand_pharmac_id` (`pharmac_id`),
+  KEY `hml_brand_hml_formulation_id` (`hml_formulation_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=239118 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `hml_cfbp`
+--
+
+DROP TABLE IF EXISTS `hml_cfbp`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `hml_cfbp` (
+  `hml_schedule_id` bigint(20) NOT NULL default '0',
+  `hml_pack_id` bigint(20) unsigned NOT NULL default '0',
+  `hml_brand_id` bigint(20) unsigned NOT NULL default '0',
+  `brand_name` varchar(255) NOT NULL,
+  `hml_formulation_id` bigint(20) unsigned NOT NULL default '0',
+  `formulation_name` varchar(255) NOT NULL,
+  `hml_chemical_id` bigint(20) unsigned NOT NULL default '0',
+  `chemical_name` varchar(255) default '',
+  KEY `hml_cfbp_hml_schedule_id` (`hml_schedule_id`),
+  KEY `hml_cfbp_hml_pack_id` (`hml_pack_id`),
+  KEY `hml_cfbp_hml_brand_id` (`hml_brand_id`),
+  KEY `hml_cfbp_hml_formulation_id` (`hml_formulation_id`),
+  KEY `hml_cfbp_hml_chemical_id` (`hml_chemical_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `hml_chemical`
+--
+
+DROP TABLE IF EXISTS `hml_chemical`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `hml_chemical` (
+  `hml_chemical_id` bigint(20) unsigned NOT NULL auto_increment,
+  `hml_schedule_id` bigint(20) NOT NULL default '0',
+  `hml_atc_id` bigint(20) NOT NULL default '0' COMMENT 'parent id',
+  `pharmac_id` varchar(15) NOT NULL default '',
+  `name` varchar(255) default '',
+  `statim` varchar(4) default '',
+  PRIMARY KEY  (`hml_chemical_id`),
+  UNIQUE KEY `hml_chemical_id` (`hml_chemical_id`),
+  KEY `hml_chemical_pharmac_id` (`pharmac_id`),
+  KEY `hml_chemical_hml_atc_id` (`hml_atc_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=100939 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `hml_formulation`
+--
+
+DROP TABLE IF EXISTS `hml_formulation`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `hml_formulation` (
+  `hml_formulation_id` bigint(20) unsigned NOT NULL auto_increment,
+  `hml_schedule_id` bigint(20) NOT NULL default '0',
+  `hml_chemical_id` bigint(20) NOT NULL default '0' COMMENT 'parent id',
+  `pharmac_id` varchar(15) NOT NULL default '',
+  `name` varchar(255) NOT NULL,
+  `rank` smallint(6) NOT NULL default '0' COMMENT 'sort order of formulations in printed output?',
+  `update_summary` varchar(255) default '' COMMENT 'List of fields changed in this record, and +/- indicating direction of change',
+  `units` varchar(20) default '',
+  `weight` decimal(15,4) default '0.0000',
+  `safety` varchar(12) default '',
+  `statim` varchar(4) default '',
+  PRIMARY KEY  (`hml_formulation_id`),
+  UNIQUE KEY `hml_formulation_id` (`hml_formulation_id`),
+  KEY `hml_formulation_pharmac_id` (`pharmac_id`),
+  KEY `hml_formulation_hml_chemical_id` (`hml_chemical_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=210355 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `hml_note`
+--
+
+DROP TABLE IF EXISTS `hml_note`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `hml_note` (
+  `hml_note_id` bigint(20) unsigned NOT NULL auto_increment,
+  `hml_schedule_id` bigint(20) NOT NULL default '0',
+  `hml_parent_id` bigint(20) default '0',  `pharmac_id` varchar(20) NOT NULL default '',
+  `parent_table` varchar(20) default '',
+  `note_class` varchar(30) default '' COMMENT 'note, guidance, or request',
+  `notes_xml` text COMMENT 'raw XML/HTML content from schedule.xml',
+  `cached_html` text COMMENT 'cached copy of redered html for this note',
+  PRIMARY KEY  (`hml_note_id`),
+  UNIQUE KEY `hml_note_id` (`hml_note_id`),
+  KEY `hml_note_hml_parent_id` (`hml_parent_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=27267 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `hml_pack`
+--
+
+DROP TABLE IF EXISTS `hml_pack`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `hml_pack` (
+  `hml_pack_id` bigint(20) unsigned NOT NULL auto_increment,
+  `hml_schedule_id` bigint(20) NOT NULL default '0',
+  `hml_brand_id` bigint(20) NOT NULL default '0' COMMENT 'parent id',
+  `subsidy_code` varchar(15) NOT NULL default '',
+  `pharmacode` bigint(20) NOT NULL default '0' COMMENT 'Pharmacode extracted from subsidy_code',
+  `name` varchar(255) NOT NULL default '',
+  `specified` tinyint(4) NOT NULL default '0',
+  `originalpack` tinyint(4) NOT NULL default '0',
+  `costbrandsource` tinyint(4) NOT NULL default '0',
+  `subsidy` decimal(19,4) NOT NULL default '0.0000' COMMENT 'Pharmac subsidy amount',
+  `price` decimal(19,4) NOT NULL default '0.0000' COMMENT 'Contracted manufacturer price',
+  `surcharge` decimal(19,5) NOT NULL default '0.00000' COMMENT 'Dollars PER ITEM. NOT per pack. Important: surcharge has 5 decimal places in the xml',
+  `alternate` decimal(19,4) NOT NULL default '0.0000' COMMENT 'This value REPLACES the subsidy if conditions are met',
+  `multiple` decimal(19,4) NOT NULL default '0.0000',
+  `quantity` decimal(19,4) NOT NULL default '0.0000',
+  `is_dummy` tinyint(4) NOT NULL default '0',  PRIMARY KEY  (`hml_pack_id`),
+  UNIQUE KEY `hml_pack_id` (`hml_pack_id`),
+  KEY `hml_pack_subsidy_code` (`subsidy_code`),
+  KEY `hml_pack_hml_brand_id` (`hml_brand_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=247037 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `hml_request`
+--
+
+DROP TABLE IF EXISTS `hml_request`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `hml_request` (
+  `hml_request_id` bigint(20) unsigned NOT NULL auto_increment,
+  `hml_schedule_id` bigint(20) NOT NULL default '0',
+  `hml_parent_id` bigint(20) default '0',
+  `parent_table` varchar(20) default '',
+  `to_approvers` varchar(40) NOT NULL default '',
+  `for_entitlements` varchar(40) NOT NULL default '',
+  `sa_form` varchar(255) default '' COMMENT 'name of special authority form',
+  `confidential` tinyint(4) default '0',
+  `edition` varchar(20) default '',
+  `funding` varchar(10) default '',
+  PRIMARY KEY  (`hml_request_id`),
+  UNIQUE KEY `hml_request_id` (`hml_request_id`),
+  KEY `hml_request_hml_parent_id` (`hml_parent_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=14937 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+
+--
+-- Table structure for table `hml_rule`
+--
+
+DROP TABLE IF EXISTS `hml_rule`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `hml_rule` (
+  `hml_rule_id` bigint(20) unsigned NOT NULL auto_increment,
+  `hml_schedule_id` bigint(20) NOT NULL default '0',
+  `hml_parent_id` bigint(20) default '0',
+  `parent_table` varchar(20) default '',
+  `type` varchar(20) default '',
+  `attribute` varchar(30) default '',
+  `value` decimal(15,4) default '0.0000',
+  `waiver` varchar(20) default '',
+  `xlink_href` varchar(20) default NULL,
+  `guideline` varchar(20) default NULL,
+  `nonprinting` tinyint(4) default '0',  `effective_date` date default NULL,
+  
+  PRIMARY KEY  (`hml_rule_id`),
+  UNIQUE KEY `hml_rule_id` (`hml_rule_id`),
+  KEY `hml_rule_hml_parent_id` (`hml_parent_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=112915 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+
+
+--
+-- Table structure for table `who_atc`
+--
+
+DROP TABLE IF EXISTS `who_atc`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `who_atc` (
+  `who_atc_id` bigint(20) unsigned NOT NULL auto_increment,
+  `ms_dataset_id` bigint(20) NOT NULL default '0',
+  `atc_code` varchar(10) NOT NULL default '',
+  `name` varchar(255) NOT NULL default '',
+  PRIMARY KEY  (`who_atc_id`),
+  UNIQUE KEY `who_atc_id` (`who_atc_id`),
+  KEY `who_atc_atc_code` (`atc_code`)
+) ENGINE=MyISAM AUTO_INCREMENT=169336 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2011-06-22  5:46:21
