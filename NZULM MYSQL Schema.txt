@@ -501,8 +501,44 @@ CREATE TABLE `ctpp_pharmacodes` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 SET character_set_client = @saved_cs_client;
 
+--
+-- Table structure for table `ctpp_related_ids`
 
+DROP TABLE IF EXISTS `ctpp_related_ids`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `ctpp_related_ids` (
+	`ctpp_id` varchar(19),
+	`ctpp_pt` varchar(512),
+	`tpp_id` varchar(19),
+	`tpp_pt` varchar(512),
+	`tpuu_id` varchar(19),
+	`tpuu_pt` varchar(512),
+	`tp_id` varchar(19),
+	`tp_pt` varchar(512),
+	`mpp_id` varchar(19),
+	`mpp_pt` varchar(512),
+	`mpuu_id` varchar(19),
+	`mpuu_pt` varchar(512),
+	`mp_id` varchar(19),
+	`mp_pt` varchar(512)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
 
+--
+-- Table structure for table `flags`
+--
+
+DROP TABLE IF EXISTS `flags`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `flags` (
+	`flag_id` int(8),
+	`sctid` varchar(19),
+	`table_name` varchar(64),
+	`flag_name` varchar(64)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
 
 
 --
