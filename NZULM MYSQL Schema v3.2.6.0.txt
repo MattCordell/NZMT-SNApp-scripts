@@ -533,7 +533,7 @@ CREATE TABLE `gtins` (
   `gtin` bigint NOT NULL,
   `ctpp_id` varchar(19) NOT NULL,
   `date_from` date default '0000-00-00',
-  `date_to` date default '0000-00-00',
+  `date_to` date default '0000-00-00'
 
 
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
@@ -1059,7 +1059,7 @@ CREATE TABLE `charting_term_index` (
   `prescribe_by_brand` tinyint(4) default '0',  `is_subsidised` tinyint(4) default '0',
   PRIMARY KEY  (`ctpp_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-SET character_set_client = @saved_cs_client;--
+SET character_set_client = @saved_cs_client; 
 -- Table structure for table `ps_schedule`
 --
 
@@ -1068,7 +1068,7 @@ SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `ps_schedule` (
   `ps_schedule_id` bigint(20) unsigned NOT NULL auto_increment,
-  `content_type` text NOT NULL default 'CS' COMMENT 'CS for Community Schedule',
+  `content_type` varchar(512) NOT NULL default 'CS' COMMENT 'CS for Community Schedule',
   `published_date` date default '0000-00-00' COMMENT 'Schedule Effective date',
   `title` varchar(80) NOT NULL,
   `edition` varchar(80) NOT NULL,
@@ -1312,7 +1312,7 @@ SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `hml_schedule` (
   `hml_schedule_id` bigint(20) unsigned NOT NULL auto_increment,
-  `content_type` text NOT NULL default 'HML' COMMENT 'HML for Hospital Medicines List',
+  `content_type` varchar(512) NOT NULL default 'HML' COMMENT 'HML for Hospital Medicines List',
   `published_date` date default '0000-00-00' COMMENT 'HML Effective Date',
   `title` varchar(80) NOT NULL,
   `edition` varchar(80) NOT NULL,
