@@ -1,0 +1,11 @@
+-- FSN from descriptions
+select id, 20161026, 1, "NZMT_ModuleId", parent_id, 'en', 900000000000003001, term, 900000000000020002 
+from descriptions where description_type_id = 20072381000116109
+UNION
+-- Synonym PT from descriptions
+select id, 20161026, 1, "NZMT_ModuleId", parent_id, 'en', 900000000000013009, term, 900000000000020002 
+from descriptions where description_type_id = 20069071000116107
+UNION
+-- All other Synonyms from descriptions - use NZ descriptions types
+select id, 20161026, 1, "NZMT_ModuleId", parent_id, 'en', 900000000000013009, term, 900000000000020002 
+from descriptions where description_type_id != 20069071000116107 and description_type_id != 20072381000116109
