@@ -1,0 +1,28 @@
+id	effectiveTime	active	moduleId	sourceId	destinationId	relationshipGroup	typeId	characteristicTypeId	modifierId
+6548977022	20160731	1	900000000000012004	715729007	370136006	0	116680003	900000000000011006	900000000000451002
+-- module_id = NZMT_ModuleId
+
+id, effectiveTime, active, moduleId, sourceId, destinationId, relationshipGroup, typeId, characteristicTypeId, modifierId
+
+-- containertype parent -- 30446011000036105
+select UUID(), 20161027, 1, "NZMT_ModuleId", id, IF(parentCT = "", 30446011000036105, parentCT), 0, 116680003, 900000000000011006, 900000000000451002
+from ct where is_retired = 0
+UNION
+-- CTPP Concepts.
+-- first all the CTPP ISA TPP relationships
+select UUID(), 20161027, 1, "NZMT_ModuleId", id, TPP, 0, 116680003, 900000000000011006, 900000000000451002
+from ctpp where is_retired = 0 and TPP != ""
+UNION
+-- git all the concepts a IS A CTPP (will cover the nulls)
+select UUID(), 20161027, 1, "NZMT_ModuleId", id, 30537011000036101, 0, 116680003, 900000000000011006, 900000000000451002
+from ctpp where is_retired = 0
+UNION
+-- model the containerTypes, a grouped relationship too.
+-- 30465011000036106 has Container Type (from AMT)
+select UUID(), 20161027, 1, "NZMT_ModuleId", id, ContainerType, 1, 30465011000036106, 900000000000011006, 900000000000451002
+from ctpp where is_retired = 0 and containerType != ""
+UNION
+
+-- Form relationships, 30383011000036100 Default Form parent
+select UUID(), 20161027, 1, "NZMT_ModuleId", id, IF(parentF = "", 30383011000036100, parentF), 0, 116680003, 900000000000011006, 900000000000451002 
+from doseform where is_retired = 0
