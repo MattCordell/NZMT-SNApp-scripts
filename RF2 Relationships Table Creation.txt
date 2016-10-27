@@ -26,3 +26,14 @@ UNION
 -- Form relationships, 30383011000036100 Default Form parent
 select UUID(), 20161027, 1, "NZMT_ModuleId", id, IF(parentF = "", 30383011000036100, parentF), 0, 116680003, 900000000000011006, 900000000000451002 
 from doseform where is_retired = 0
+UNION
+
+-- make MP concept children 30497011000036103
+select UUID(), 20161027, 1, "NZMT_ModuleId", id, 30497011000036103, 0, 116680003, 900000000000011006, 900000000000451002
+from mp where is_retired = 0
+UNION
+
+-- MP has active ingredent relationship.
+-- requires some grouping work jiggery
+select id, 20161027, 1, "NZMT_ModuleId", MP, substance_id, 0, 127489000, 900000000000011006, 900000000000451002
+from mp_has_substance
