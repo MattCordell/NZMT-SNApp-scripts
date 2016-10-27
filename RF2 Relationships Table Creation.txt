@@ -48,3 +48,13 @@ UUID() AS A, 20161027, 1, "NZMT_ModuleId", MPP, MPUU, 1, 30348011000036104, 9000
 -- MPP has MPUU qty concrete domain
 UUID(),20161027,1,"NZMT_ModuleId",700000111000036105,"Column1",UnitOfUseQuantityUnits,700000051000036108,UnitOfUseQuantityValue
  from mhm;
+
+ -- Uber query. generates both the TPP hasTPUU relationship, and a concrete domain reference.
+-- split on pipe. referencedCompoentId = relationship ID
+-- currently grouped as 1
+select 
+-- MPP has MPUU relationship
+UUID() AS A, 20161027, 1, "NZMT_ModuleId", TPP, TPUU, 1, 30348011000036104, 900000000000011006, 900000000000451002,'|',
+-- MPP has MPUU qty concrete domain
+UUID(),20161027,1,"NZMT_ModuleId",700000111000036105,"Column1",UnitOfUseQuantityUnits,700000051000036108,UnitOfUseQuantityValue
+ from tht limit 5;
