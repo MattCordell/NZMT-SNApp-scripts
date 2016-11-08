@@ -1,0 +1,14 @@
+
+delimiter //
+
+DROP FUNCTION IF EXISTS get_Composite_Unit//
+
+CREATE FUNCTION get_Composite_Unit(Numerator_value bigint(20),Denominator_value bigint(20)) RETURNS bigint(20)
+  BEGIN
+  
+  	RETURN (select distinct composite from composite_num_denom 
+	 								where numerator = Numerator_value and denominator = Denominator_value 
+									limit 1);
+
+  END//
+  

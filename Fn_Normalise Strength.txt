@@ -1,0 +1,11 @@
+
+delimiter //
+
+DROP FUNCTION IF EXISTS NormaliseStrength//
+
+CREATE FUNCTION NormaliseStrength(Numerator_value FLOAT,Denominator_value FLOAT) RETURNS FLOAT(15,12)
+  BEGIN
+  
+  	RETURN Numerator_value/Denominator_value;
+
+  END//
